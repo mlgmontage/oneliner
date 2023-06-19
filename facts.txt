@@ -1,0 +1,84 @@
+show directofies: ls | where type == dir
+http get https://jsonplaceholder.typicode.com/posts | first 5
+sorting: ls | sort-by size | reverse
+more that 1kb: ls | where size > 1kb
+count line numbers: ls | length
+variables are immutable: let x = 10
+traverse each: ls | each { |it| cd $it.name; make; }
+42 | describe
+"-5" | into int
+"1.2" | into decimal
+let mybool = ($env.HOME | path exists)
+durations: ns,us,ms,sec,min,hr,day,wk
+file sizes: b,kb,mb,gb,tb
+A range is a way of expressing a sequence of values from start to finish.
+The range 1..3 includes the number 3 as the last value in the range.
+record: { name: sam rank: 10 }
+list: [sam fred george]
+starts with "b": [bell book candle] | where ($it =~ 'b')
+tables: [{name: sam, rank: 10}, {name: bob, rank: 7}]
+open editors/vscode/package.json | table
+open editors/vscode/package.json | get version
+open people.txt | lines
+open people.txt | lines | split column "|"
+open people.txt | lines | split column "|" | str trim
+supported formats: csv, eml, ics, ini, json, nuon, ods, SQLite databases, ssv, toml, tsv, url, vcf, xlsx / xls, xml, yaml / yml
+Nushell Object Notation (NUON) aims to be for Nushell what JavaScript Object Notation (JSON) is for JavaScript. 
+open Cargo.lock | from toml | table
+sqlite: open foo.db | get some_table
+open foo.db | query db "select * from some_table"
+fetching url: http get https://blog.rust-lang.org/feed.xml | table
+A pipeline is composed of three parts: the input, the filter, and the output.
+If a pipeline is getting a bit long for one line, you can enclose it within ( and ) to create a subexpression
+When a semicolon is used, no output data is produced to be piped. `line1; line2 | line3`
+string interpolation: let name = 'Alice'; $"Hello, ($name)"
+"red,green,blue" | split row ","
+"red,green,blue" | split column ","
+"red" | split chars
+"hello world" | str contains "o wo"
+'       My   string   ' | str trim
+'Hello World!' | str index-of 'o'
+'Hello World!' | str substring 4..8
+'Hello World!' | str reverse
+'Nushell 0.80' | parse '{shell} {version}'
+"acronym,long\nAPL,A Programming Language" | from csv
+'JavaScript' starts-with 'Java'
+'OCaml' ends-with 'Caml'
+You can colors strings with `ansi` command.
+[1, 2, 3, 4] | insert 2 10
+[1, 2, 3, 4] | append 10
+[1, 2, 3, 4] | prepend 10
+[1, 2, 3, 4] | first 2
+[1, 2, 3, 4] | last 1
+$names | each { |it| $"Hello, ($it)!" }
+$names | enumerate | each { |it| $"($it.index + 1) - ($it.item)" }
+$colors | where ($it | str ends-with 'e')
+$"total = ($scores | reduce { |it, acc| $acc + $it })" # total = 15
+$"total = ($scores | math sum)" # easier approach, same result
+accessing by index: $names.1
+accessing by index with variable: $names | get $index
+$colors | is-empty
+'blue' in $colors
+$colors | any {|it| $it | str ends-with "e" }
+$colors | any {|it| ($it | str length) < 3 }
+$colors | all {|it| $it | str ends-with "e" }
+$colors | all {|it| ($it | str length) >= 3 }
+[1 [2 3] 4 [5 6]] | flatten
+ls | sort-by size
+ls | select name size
+ls | sort-by size | first 5 | skip 2
+ls | get name
+def greet [name] { ['hello, ' $name] }
+greet "Jason"
+sub commands: def "str mycommand" [] { "hello" }
+str mycommand
+def greet [name: int] { $"hello ($name)" }
+accepted datatypes: any, block, cell-path, duration, path, expr, filesize, glob, int, math, number, operator, range, cond, bool, signature, string, variable, record, list, table, error
+def greet [name = "nushell"] { $"hello ($name)" }
+flags: def greet [ name: string --age: int] { [$name $age] }
+greet world --age 10
+def greet [...name: string] { print "hello all:"; for $n in $name { print $n } }
+aliases: alias ll = ls -l
+"FOO" | str contains --insensitive "foo"
+ls | where $it.size > 10kb
+mutable variable: mut i = 42
