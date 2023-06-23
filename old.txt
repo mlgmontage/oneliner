@@ -1,6 +1,0 @@
-Pacman autoremove: pacman -R (pacman -Qdtq)
-Pacman clear cache: pacman -Scc
-Dotfile is user specific app configuration is stored in "dotfiles"
-A web server serves HTML web pages and other files via HTTP to clients like web browsers
-Nushell: for x in [1 2 3] { print ($x * $x) }
-Shell: `du` disk usage

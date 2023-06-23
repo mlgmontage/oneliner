@@ -1,0 +1,25 @@
+Route::get('/', function () { return view('welcome'); });
+Route::get('/articles', [Article::class, 'index']);
+Route::get('/article/{id}', [Article::class, 'article']);
+Route::get('/create', [Article::class, 'create']);
+All: $articles = ArticleModel::all();
+Individual: $article = ArticleModel::find($id);
+Create: $article = new ArticleModel();
+View: return view('articles', ['articles' => $articles]);
+@foreach ($articles as $article) {{ $article }}  @endforeach
+@if (count($records) === 1) {{ }} @else {{ }} @endif
+@unless (Auth::check()) {{ }} @endunless
+@isset($records) {{ }} @endisset
+@empty($records) {{ }} @endempty
+@auth {{ }} @endauth
+@guest {{ }} @endguest
+@production {{ }} @endproduction
+@for ($i = 0; $i < 10; $i++) {{ $i }} @endfor
+@while (true) <p>I'm looping forever.</p> @endwhile
+@forelse ($users as $user) <li>{{ $user->name }}</li> @empty <p>No users</p>@endforelse
+@include('view.name', ['status' => 'complete'])
+@includeIf('view.name', ['status' => 'complete'])
+@includeWhen($boolean, 'view.name', ['status' => 'complete'])
+@includeUnless($boolean, 'view.name', ['status' => 'complete'])
+@php $counter = 1; @endphp
+Route::get('/hello', function () { return response('Hello world'); });

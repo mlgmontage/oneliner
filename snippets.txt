@@ -1,0 +1,189 @@
+class UserController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('log')->only('index');
+        $this->middleware('subscribed')->except('store');
+    }
+}
+<=>
+use Illuminate\Support\Facades\Route;
+ 
+Route::get('/greeting', function () {
+    return 'Hello World';
+});
+<=>
+use App\Http\Controllers\UserController;
+ 
+Route::get('/user', [UserController::class, 'index']);
+<=>
+Route::get($uri, $callback);
+Route::post($uri, $callback);
+Route::put($uri, $callback);
+Route::patch($uri, $callback);
+Route::delete($uri, $callback);
+Route::options($uri, $callback);
+<=>
+Route::match(['get', 'post'], '/', function () {
+    // ...
+});
+ 
+Route::any('/', function () {
+    // ...
+});
+<=>
+use Illuminate\Http\Request;
+ 
+Route::get('/users', function (Request $request) {
+    // ...
+});
+<=>
+Route::redirect('/here', '/there');
+<=>
+Route::view('/welcome', 'welcome');
+ 
+Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+<=>
+php artisan route:list
+php artisan route:list -v
+<=>
+Route::get('/user/{id}', function (string $id) {
+    return 'User '.$id;
+});
+<=>
+Route::get('/posts/{post}/comments/{comment}', function (string $postId, string $commentId) {
+    // ...
+});
+<=>
+use Illuminate\Http\Request;
+ 
+Route::get('/user/{id}', function (Request $request, string $id) {
+    return 'User '.$id;
+});
+<=>
+Route::get('/user/{name?}', function (string $name = null) {
+    return $name;
+});
+ 
+Route::get('/user/{name?}', function (string $name = 'John') {
+    return $name;
+});
+<=>
+Route::get('/user/{name}', function (string $name) {
+    // ...
+})->where('name', '[A-Za-z]+');
+ 
+Route::get('/user/{id}', function (string $id) {
+    // ...
+})->where('id', '[0-9]+');
+ 
+Route::get('/user/{id}/{name}', function (string $id, string $name) {
+    // ...
+})->where(['id' => '[0-9]+', 'name' => '[a-z]+']);
+<=>
+public function boot(): void
+{
+    Route::pattern('id', '[0-9]+');
+}
+Route::get('/user/{id}', function (string $id) {
+    // Only executed if {id} is numeric...
+});
+<=>
+Route::middleware(['first', 'second'])->group(function () {
+    Route::get('/', function () {
+        // Uses first & second middleware...
+    });
+ 
+    Route::get('/user/profile', function () {
+        // Uses first & second middleware...
+    });
+});
+<=>
+use App\Models\User;
+ 
+Route::get('/users/{user}', function (User $user) {
+    return $user->email;
+});
+<=>
+php artisan make:middleware EnsureTokenIsValid
+class EnsureTokenIsValid
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        if ($request->input('token') !== 'my-secret-token') {
+            return redirect('home');
+        }
+ 
+        return $next($request);
+    }
+}
+<=>
+php artisan make:controller UserController
+ 
+class UserController extends Controller
+{
+    public function show(string $id): View
+    {
+        return view('user.profile', [
+            'user' => User::findOrFail($id)
+        ]);
+    }
+}
+<=>
+<?php
+class PostController extends Controller
+{
+    public function create(): View
+    {
+        return view('post.create');
+    }
+ 
+    public function store(Request $request): RedirectResponse
+    {
+        // Validate and store the blog post...
+ 
+        $post = 
+ 
+        return to_route('post.show', ['post' => $post->id]);
+    }
+}
+<=>
+public function store(Request $request): RedirectResponse
+{
+    $validated = $request->validate([
+        'title' => 'required|unique:posts|max:255',
+        'body' => 'required',
+    ]);
+ 
+    // The blog post is valid...
+ 
+    return redirect('/posts');
+}
+<=>
+<!-- /resources/views/post/create.blade.php -->
+ 
+<h1>Create Post</h1>
+ 
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+ 
+<!-- Create Post Form -->
+<=>
+<?php
+class UserController extends Controller
+{
+    public function index(): View
+    {
+        $users = DB::table('users')->get();
+ 
+        return view('user.index', ['users' => $users]);
+    }
+}

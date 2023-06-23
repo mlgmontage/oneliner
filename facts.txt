@@ -82,3 +82,4 @@ aliases: alias ll = ls -l
 "FOO" | str contains --insensitive "foo"
 ls | where $it.size > 10kb
 mutable variable: mut i = 42
+Run script in current context: source

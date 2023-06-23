@@ -1,9 +1,11 @@
 #!/usr/bin/env nu
 
-let arrow = (open facts.txt | lines)
-let delay = 40000
+def liner [filename] {
+    let arrow = (open $filename | lines)
+    let delay = 30000
 
-for line in $arrow {
-    notify-send -t $delay $line;
-    sleep ($"($delay)ms" | into duration);
+    for line in $arrow {
+        notify-send -t $delay $line;
+        sleep ($"($delay)ms" | into duration);
+    }
 }
