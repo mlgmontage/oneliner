@@ -1,0 +1,12 @@
+Throwable is the base interface for any object that can be thrown via a `throw` statement, including Error and Exception. getFile, getLine, getMessage, getPrevious, getTrace, getTraceAsString
+Stringable: Interface implemented by classes that are convertible to string.
+RuntimeException: Exception thrown if an error which can only be found on runtime occurs.
+assert: function assert($assertion, $exception): bool
+Countable: Classes implementing Countable can be used with the count() function.
+Iterator: Interface for external iterators or objects that can be iterated themselves internally.
+Traversable: Interface to detect if a class is traversable using foreach.
+ArrayAccess: Interface to provide accessing objects as arrays.
+The SplObjectStorage class provides a map from objects to data or, by ignoring data, an object set. This dual purpose can be useful in many cases involving the need to uniquely identify objects.
+abs: absolute value
+mb_strtolower: string to lowercase
+DOMDocument: Represents an entire HTML or XML document; serves as the root of the document tree.

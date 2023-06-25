@@ -5,7 +5,7 @@ def liner [filename] {
     let delay = 30000
 
     for line in $arrow {
-        notify-send -t $delay $line;
+        notify-send -t $delay $"> ($line)";
         sleep ($"($delay)ms" | into duration);
     }
 }
