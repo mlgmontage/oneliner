@@ -2,9 +2,8 @@
 
 let filename = "~/notes/log.txt"
 
-def liner [filename] {
+def liner [filename delay] {
     let arrow = (open $filename | lines)
-    let delay = 30000
 
     for line in $arrow {
         notify-send -t $delay $"> ($line)";
